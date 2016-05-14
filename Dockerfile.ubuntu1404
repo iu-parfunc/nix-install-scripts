@@ -1,0 +1,63 @@
+# This Dockerfile simply confirms that our script is sufficient in a
+# BARE ubuntu environment.
+
+FROM ubuntu:14.04
+
+RUN apt-get update
+
+# Restrict which files we add to increase caching when
+# developing/modifying this Docker config and the scripts:
+ADD ./bits/install_ubuntu_from_source_with_prereqs.sh \
+    ./bits/install_from_source.sh \
+    ./bits/NIX_RELEASE.sh \
+    /scripts/bits/
+
+RUN cd /scripts && ./bits/install_ubuntu_from_source_with_prereqs.sh
+
+# NOTE: It seems to work to tarball and extract the prebuilt nix
+# source directory and then use it to install on non-containerized
+# Ubuntu machines.
+
+# NOTE: Here's a summary of the paths a "make install" touches 
+#  (As of version 1.11.2, [2016.05.14]):
+# 
+#  /usr/local/bin/nix-*
+#  /usr/local/etc/init/nix-daemon.conf
+#  /usr/local/etc/profile.d/nix.sh
+#  /usr/local/include/nix/config.h
+#  /usr/local/lib/libnix*
+#  /usr/local/lib/perl5/site_perl/5.18.2/x86_64-linux-gnu-thread-multi/*
+#  /usr/local/lib/pkgconfig/nix-*
+#  /usr/local/lib/systemd/system/nix-daemon.*
+#  /usr/local/libexec/nix/*
+#  /usr/local/share/nix/*
+
+# ------------------------------------------------------------
+
+RUN addgroup nixbld
+# RUN addgroup root nixbld
+RUN useradd -c "Nix build user $n" \
+      -d /var/empty -g nixbld -G nixbld -M -N -r -s "$(which nologin)" \
+      nixbld01;
+
+RUN nix-store --init
+
+RUN . /usr/local/etc/profile.d/nix.sh
+
+# Instead, peg at a version for reproducibility:
+RUN nix-channel --add \ 
+    https://nixos.org/releases/nixpkgs/nixpkgs-16.09pre83147.df89584/ nixpkgs
+#   https://nixos.org/releases/nixpkgs/nixpkgs-16.03pre76763.be0abb3/ nixpkgs
+# Skipping the above "--add" will (nondeterministically) track
+# nixpkgs-unstable when we update:
+RUN nix-channel --update
+
+# Needs /root/.nix-defexpr if we're going to skip channels:
+# ENV NIX_PATH nixpkgs=https://github.com/NixOS/nixpkgs/archive/16.03.tar.gz
+
+# This is the command that lazily creates /nix/var/nix/profiles/default:
+RUN nix-env -i bash
+RUN nix-env -q
+
+
+
