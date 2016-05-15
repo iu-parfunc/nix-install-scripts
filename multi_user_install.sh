@@ -11,6 +11,11 @@ REL=`dirname $0`
 TOP=`(cd $REL; pwd)`
 
 unset NIX_REMOTE
+unset NIX_PATH
+unset NIX_CONF_DIR
+
+# Wipe things clean before starting out:
+sudo rm -rf /etc/nix/nix.conf /nix/store /nix/var
 
 echo "Running local nix homedir setup:"
 source $TOP/bits/setup_nix_local.sh
@@ -124,6 +129,8 @@ if ! grep $DAEMON /etc/rc.local; then
 #    ^ This is hard to update automatically because it should end with "exit 0"
     echo "Please add nix-daemon invocation to rc.local....  Press a key to continue."
     read
+else
+    echo "Great! Found /etc/rc.local already has the exact daemon call we want."
 fi
 
 
