@@ -2,7 +2,6 @@
 # BARE ubuntu environment.
 
 FROM ubuntu:14.04
-
 RUN apt-get update
 
 # Restrict which files we add to increase caching when
