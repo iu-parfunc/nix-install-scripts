@@ -16,5 +16,5 @@ cd nix-${VER}
 ./bootstrap.sh
 ./configure --enable-gc
 g++ --version
-make -j
+make -j2
 sudo make install
