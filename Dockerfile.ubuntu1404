@@ -58,5 +58,8 @@ RUN nix-channel --update
 RUN nix-env -i bash
 RUN nix-env -q
 
+# cacert="/nix/store/4fh4nwd11frn1a3rifrdv6kdifrxrfwn-nss-cacert-3.21"
+#    $nix/bin/nix-env -i "$cacert"
+#    export SSL_CERT_FILE="$HOME/.nix-profile/etc/ssl/certs/ca-bundle.crt"
 
 

@@ -23,6 +23,11 @@ RUN echo yes | /scripts/multi_user_install.sh
 RUN /nix/var/nix/profiles/default/bin/nix-env -q
 
 ENV PATH $PATH:/nix/var/nix/profiles/default/bin/
+
+# I'm not sure why this is needed, because it should have already been run 
+# by the installer:
+RUN nix-env -i $(find /nix/store -name ca-bundle.crt)
+
 ENV NIX_REMOTE daemon
 
 CMD (nix-daemon &); bash
