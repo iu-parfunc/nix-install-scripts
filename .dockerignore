@@ -1,1 +1,4 @@
-.gitignore
+temp
+*.gz
+*.xz
+Dockerfile*

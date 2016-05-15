@@ -156,8 +156,6 @@ rm -f ~/.nix-profile
     set -x
     ln -s -f /nix/var/nix/profiles/per-user/$USER/default $HOME/.nix-profile
     nixEnvCmd=`echo /nix/store/*-nix-1*/bin/nix-env | awk '{ print $1 }' `
-    # $nixEnvCmd -iA nixpkgs.bash
-    nix-channel --update
     set +x
   else
     echo "ERROR: ~/.nix-profile not present but /nix/var/nix/profiles/per-user/$USER/default not preset yet either!"

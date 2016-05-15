@@ -18,3 +18,7 @@ ENV USER root
 ADD . /scripts
 
 RUN /scripts/single_user_install_all.sh
+
+RUN /nix/var/nix/profiles/default/bin/nix-env -q
+
+ENV PATH $PATH:/nix/var/nix/profiles/default/bin/
