@@ -4,7 +4,7 @@
 
 set -xe
 
-source $(dirname $0)/NIX_RELEASE.sh
+source $(dirname $0)/CONSTANTS.sh
 
 # Shorten:
 VER=$NIX_VERSION_TO_INSTALL

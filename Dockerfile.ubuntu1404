@@ -8,7 +8,7 @@ RUN apt-get update
 # developing/modifying this Docker config and the scripts:
 ADD ./bits/install_ubuntu_from_source_with_prereqs.sh \
     ./bits/install_from_source.sh \
-    ./bits/NIX_RELEASE.sh \
+    ./bits/CONSTANTS.sh \
     /scripts/bits/
 
 RUN cd /scripts && ./bits/install_ubuntu_from_source_with_prereqs.sh

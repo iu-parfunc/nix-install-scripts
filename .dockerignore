@@ -2,3 +2,4 @@ temp
 *.gz
 *.xz
 Dockerfile*
+.git

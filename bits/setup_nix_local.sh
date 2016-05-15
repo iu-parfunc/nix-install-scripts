@@ -4,19 +4,6 @@
 # Local, home directory setup, mutates ~/.profile
 # ------------------------------------------------------------
 
-# Uses env var TOP
-
-# [2016.05.01] Skip this step.  For now we just use releases:
-# if ! [ -e $TOP/nixpkgs/pkgs ]; then
-#  # User forgot to check out recursively:
-#  (cd $TOP/../../; git submodule update --init)
-# fi
-# (cd $TOP/nixpkgs; git remote add upstream git@github.com:NixOS/nixpkgs.git || echo "Ok if remote is there.")
-
-# if ! [ -e $HOME/nixpkgs/pkgs ]; then
-  # git clone git@github.com:iu-parfunc/nixpkgs.git $HOME/.nixpkgs
-#  ln -f -s $TOP/nixpkgs $HOME/nixpkgs
-
   export NIX_BUILD_CORES=0
   export NIX_IGNORE_SYMLINK_STORE=1
 

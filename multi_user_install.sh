@@ -143,7 +143,7 @@ set -x
 export NIX_REMOTE=daemon
 
 # Grab our default settings:
-source $TOP/bits/our_package_set.sh
+source $TOP/bits/CONSTANTS.sh
 
 
 

@@ -7,7 +7,7 @@ TOP=`(cd $REL; pwd)`
 
 unset NIX_REMOTE
 
-source $TOP/bits/our_package_set.sh
+source $TOP/bits/CONSTANTS.sh
 
 source $TOP/bits/setup_nix_local.sh
 source $TOP/bits/setup_nix_global.sh
