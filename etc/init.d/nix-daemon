@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# nix-daemon - nix-daemon configuration client
+#
+# chkconfig: 2345 19 81
+# description: nix-daemon to set up the nix daemon for the multiuser mode
+#
+DAEMON=/usr/sbin/nix-daemon
+NAME=nix-daemon
+
+if test -f /etc/default/nix-daemon; then
+    . /etc/default/nix-daemon
+fi
+
+case "$1" in
+
+start)
+    if test "$NIX_DISTRIBUTED_BUILDS" = "1"; then
+        NIX_BUILD_HOOK=$(dirname $DAEMON)/../libexec/nix/build-remote.pl
+                
+        if test "$NIX_REMOTE_SYSTEMS" = "" ; then
+            NIX_REMOTE_SYSTEMS=/etc/nix/remote-systems.conf
+        fi
+                
+        # Set the current load facilities
+        NIX_CURRENT_LOAD=/var/run/nix/current-load
+                
+        if test ! -d $NIX_CURRENT_LOAD; then
+            mkdir -p $NIX_CURRENT_LOAD
+        fi
+    fi
+                
+    start-stop-daemon -b --start --quiet \
+        --exec /usr/bin/env \
+        NIX_REMOTE_SYSTEMS=$NIX_REMOTE_SYSTEMS \
+        NIX_BUILD_HOOK=$NIX_BUILD_HOOK \
+        NIX_CURRENT_LOAD=$NIX_CURRENT_LOAD \
+        $DAEMON -- $DAEMON_OPTS
+    echo "$NAME."
+    ;;
+
+
+esac
