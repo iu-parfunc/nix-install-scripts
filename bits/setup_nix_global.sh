@@ -30,8 +30,14 @@ if ! [ -d "$MY_PROF_DIR" ]; then
   mkdir -p "$MY_PROF_DIR"
 fi
 
-if ! [ -d /nix/store ]; then
+if [ -d /nix/store ]; then
+    NUMPKGS=$(ls /nix/store/ | wc -l)
+else
+    NUMPKGS=0
+fi
+    
+if [ "$NUMPKGS" == "0" ]; then
   install_binary_distro
 else
-  echo "Because /nix/store exists, we assume the install has completed already."
+  echo "Because /nix/store exists and is nonempty, we assume the install has completed already."
 fi

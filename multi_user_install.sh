@@ -15,7 +15,7 @@ unset NIX_PATH
 unset NIX_CONF_DIR
 
 # Wipe things clean before starting out:
-sudo rm -rf /etc/nix/nix.conf /nix/store /nix/var
+sudo rm -rf /etc/nix/nix.conf /nix/store/* /nix/var/*
 
 echo "Running local nix homedir setup:"
 source $TOP/bits/setup_nix_local.sh
@@ -27,7 +27,7 @@ set +x
 
 echo "Now proceeding with global setup."
 
-if ! [ -d /nix/store ]; then
+if ! [ -d /nix/var/nix/profiles/ ]; then
   echo "In multi-user install mode, but no /nix/store so running the basic setup:"
   source $TOP/bits/setup_nix_global.sh
 fi
